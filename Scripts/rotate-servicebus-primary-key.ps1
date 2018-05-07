@@ -1,16 +1,23 @@
-﻿# Set the Variables
+﻿# ------- Required for Azure Automatio Runbook --------- #
+
 $azureAutomationConnectionName = "AzureRunAsConnection"
-$resourceGroupName = 'KeyRotation'
-$serviceBusName = 'kvkkeyrotationbus'
-$serviceBusAccessPolicyName = 'RootManageSharedAccessKey'
-$keyVaultName = 'kvkkeyrotationvault'
-$keyVaultSecretKey = 'ServiceBusPrimaryKey'
 
 # Get the connection "AzureRunAsConnection
 $servicePrincipalConnection = Get-AutomationConnection -Name $azureAutomationConnectionName         
 
 # Adds the Authentication Account
 Add-AzureRmAccount -ServicePrincipal -TenantId $servicePrincipalConnection.TenantId -ApplicationId $servicePrincipalConnection.ApplicationId -CertificateThumbprint $servicePrincipalConnection.CertificateThumbprint 
+
+# ------- Required for Azure Automatio Runbook --------- #
+
+
+
+# Set the Variales
+$resourceGroupName = 'KeyRotation'
+$serviceBusName = 'kvkkeyrotationbus'
+$serviceBusAccessPolicyName = 'RootManageSharedAccessKey'
+$keyVaultName = 'kvkkeyrotationvault'
+$keyVaultSecretKey = 'ServiceBusPrimaryKey'
 
 # Regenerate the Service Bus Primary Key
 New-AzureRmServiceBusKey -ResourceGroupName $resourceGroupName -Namespace $serviceBusName -Name $serviceBusAccessPolicyName -RegenerateKey PrimaryKey
